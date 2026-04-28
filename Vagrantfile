@@ -1,3 +1,5 @@
+sshkey = "#{Dir.home}/.ssh/id_rsa.pub"
+
 nodes = [
   { :hostname => 'k8s-local-master', :ip => '192.168.56.101', :box => "bento/ubuntu-24.04", :ram => 2048, :disk => "64GB", :cpus => 1 },
   { :hostname => 'k8s-local-worker01', :ip => '192.168.56.111', :box => "bento/ubuntu-24.04", :ram => 2048, :disk => "64GB", :cpus => 1 },
@@ -21,7 +23,7 @@ Vagrant.configure("2") do |config|
       end
     end
 
-    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa.pub").first.strip
+    ssh_pub_key = File.readlines(sshkey).first.strip
     config.vm.provision "shell", inline: <<-SHELL
 echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
 echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
